@@ -9,6 +9,7 @@ const persistConfig = {
 }
 const INITIAL_STATE = {
     userToken: "",
+    allTasks: null,
 }
 const rootReducer = (state = INITIAL_STATE, action) => {
     switch ( action.type ) {
@@ -16,6 +17,11 @@ const rootReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 userToken: action.payload,
+            }
+        case types.SET_ALL_TASKS:
+            return {
+                ...state,
+                allTasks: action.payload
             }
         default:
             return state

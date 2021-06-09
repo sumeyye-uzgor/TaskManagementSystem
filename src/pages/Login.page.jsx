@@ -2,16 +2,20 @@ import { FormControl, InputLabel, Input, FormHelperText , Grid, Card, Box, Butto
 import React, { useState } from "react"
 import axios from "axios"
 import { connect } from "react-redux"
-import { setUserToken } from '../redux/actions';
+import { setAllTasks, setUserToken } from '../redux/actions';
 import { withRouter } from 'react-router-dom';
 
-function Login({login, history}) {
+function Login({login, history, setAllTasks}) {
     const [email, setEmail] = useState("")
     async function handleSignIn(){
         // console.log(email);
         try {
             const result = await axios.post( "http://localhost:5000/api/auth/login", { email } )
-            await login(result.data.payload.jwtToken)
+            await login( result.data.payload.jwtToken )
+            axios.defaults.headers.common['Authorization'] = 
+                                'Bearer ' + result.data.payload.jwtToken;
+            const res = await axios.get( "http://localhost:5000/api/task" )
+            await setAllTasks(res.data.payload)
             history.push("/")
             
         }
@@ -47,7 +51,8 @@ function Login({login, history}) {
 
 
 const mapDispatchToProps = dispatch => ( {
-    login : token => dispatch(setUserToken(token))
+    login: token => dispatch( setUserToken( token ) ),
+    setAllTasks : tasks => dispatch(setAllTasks(tasks))
 })
 export default connect(null, mapDispatchToProps)(withRouter(Login));
  
