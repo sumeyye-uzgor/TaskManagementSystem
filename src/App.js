@@ -1,26 +1,38 @@
 import './App.css';
 import React from "react"
-import { Route, Switch } from 'react-router';
-import Home from './pages/Home.page';
+import { Redirect, Route, Switch } from 'react-router';
+import AllTasks from './pages/AllTasks.page';
+import CreateNewTask from "./pages/CreateNewTask.page"
 import Login from "./pages/Login.page"
 import ResponsiveDrawer from './components/Drawer.component';
+import {connect} from "react-redux"
 
-function App() {
+function App({userToken}) {
     return (
         <React.Fragment>
-            <ResponsiveDrawer>
             <Switch>
-                <Route path="/" exact>
-                    <Home />
-                </Route>
                 <Route path="/login" exact>
                     <Login />
                 </Route>
+                {
+                    userToken ?
+                    (<ResponsiveDrawer>
+                        <Route path="/" exact>
+                            <AllTasks />
+                        </Route>
+                        <Route path="/newtask" exact>
+                            <CreateNewTask />
+                        </Route>
+                    </ResponsiveDrawer> ) :
+                    (<Redirect to="/login"/> )  
+                }
             </Switch>
-            </ResponsiveDrawer>
         </React.Fragment>
 
     );
 }
 
-export default App;
+const mapStateToProps = state => ( {
+    userToken: state.userToken
+})
+export default connect(mapStateToProps)(App);

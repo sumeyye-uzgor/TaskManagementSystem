@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   toolbarMe:{
-    marginTop: "-50px"
+    marginTop: "-60px"
   },
   drawerPaper: {
     width: drawerWidth,
@@ -78,9 +78,8 @@ function ResponsiveDrawer(props) {
       </List>
       <Divider />
       <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+        {['My Tasks', 'New Task', 'All Tasks'].map((text, index) => (
           <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
         ))}

@@ -1,7 +1,7 @@
 import TaskCard from "../components/TaskCard.component";
 import { Grid, Box } from "@material-ui/core"
 
-function Home() {
+function AllTasks() {
     return (
         <Box m={5}>
             <Grid container>
@@ -20,4 +20,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default AllTasks;
