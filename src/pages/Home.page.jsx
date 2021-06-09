@@ -6,9 +6,9 @@ function Home() {
         <Box m={5}>
             <Grid container>
                 <Grid item xs={12}>
-                    <Grid container justify="flex-start" spacing={2}>
+                    <Grid container justify="center" spacing={5}>
                         {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
-                            <Grid key={value} item xs={12} md={3} sm={6} xl={2}>
+                            <Grid key={value} item xs={12} md={6} lg={4} sm={12} xl={3}>
                                 <TaskCard />
                             </Grid>
                         ))}
