@@ -1,4 +1,4 @@
-export default NavbarItems= [
+const NavbarItems= [
     {
         title: "All Tasks",
         link: "/",
@@ -30,3 +30,5 @@ export default NavbarItems= [
         id:7
     }
 ]
+
+export default NavbarItems

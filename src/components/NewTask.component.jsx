@@ -27,8 +27,8 @@ const useStyles = makeStyles({
 
 function NewTask({userInfo}) {
     const classes = useStyles();
-    const departments = [ "HR", "Sales", "Marketing" ]
-    const status = ["Pending", "Completed", "Rejected"]
+    // const departments = [ "HR", "Sales", "Marketing" ]
+    // const status = ["Pending", "Completed", "Rejected"]
     return (
         <Card className={classes.root}>
             <CardContent>
