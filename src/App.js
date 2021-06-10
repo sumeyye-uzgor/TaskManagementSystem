@@ -33,6 +33,6 @@ function App({userToken}) {
 }
 
 const mapStateToProps = state => ( {
-    userToken: state.userToken
+    userToken: state.userInfo.userToken
 })
 export default connect(mapStateToProps)(App);

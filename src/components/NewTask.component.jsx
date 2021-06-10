@@ -25,16 +25,15 @@ const useStyles = makeStyles({
     },
 });
 
-function TaskCard({task, userInfo}) {
+function NewTask({userInfo}) {
     const classes = useStyles();
-    // const bull = <span className={classes.bullet}>•</span>;
     const departments = [ "HR", "Sales", "Marketing" ]
     const status = ["Pending", "Completed", "Rejected"]
     return (
         <Card className={classes.root}>
             <CardContent>
                 <Typography variant="h6" component="h2">
-                    {task.title}
+                    deneme
                 </Typography>
 
                 <Typography className={ classes.pos } color="textSecondary" component="p">
@@ -42,28 +41,14 @@ function TaskCard({task, userInfo}) {
                    {/* {task.description} */}
                     {/* Assigned By : { task.user.name } */}
                     {/* <br/> */}
-                    Assigned To : {departments[task.assignedDepartment-1]}
+                   deneme
                     <br />
-                    Status: {status[task.status]}
+                    Statu
                 </Typography>
             </CardContent>
             <CardActions>
-                {
-                    userInfo.userId === task.user.id && (
-                        <React.Fragment>
-                            <Button size="small" color="primary" variant="outlined">Edit</Button>
-                            <Button size="small" color="primary" variant="outlined">Delete</Button>
-                        </React.Fragment>
-                    )
-                }
-                {
-                    userInfo.department === task.assignedDepartment && (
-                        <React.Fragment>
-                            <Button size="small" color="primary" variant="outlined">Complete</Button>
-                            <Button size="small" color="primary" variant="outlined">Reject</Button>
-                        </React.Fragment> )
-                }
-                <Button size="small" color="primary" variant="outlined">Detials</Button>
+
+                <Button size="small" color="primary" variant="outlined">Save</Button>
             </CardActions>
         </Card>
     );
@@ -73,4 +58,4 @@ const mapStateToProps = state => ( {
     userInfo: state.userInfo,
 } )
 
-export default connect(mapStateToProps)(TaskCard)
+export default connect(mapStateToProps)(NewTask)

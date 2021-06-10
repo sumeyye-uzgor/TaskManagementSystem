@@ -1,8 +1,8 @@
 import types from "./types"
 
-export const setUserToken = ( userToken ) => ( {
+export const setUserToken = ( userInfo) => ( {
     type: types.SET_USER_TOKEN,
-    payload: userToken
+    payload: userInfo
 } )
 export const setAllTasks = ( tasks ) => ( {
     type: types.SET_ALL_TASKS,

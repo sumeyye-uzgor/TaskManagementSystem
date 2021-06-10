@@ -8,7 +8,11 @@ const persistConfig = {
     whitelist: ['']
 }
 const INITIAL_STATE = {
-    userToken: "",
+    userInfo: {
+        userToken: "",
+        userId: "",
+        depatment: null,
+    },
     allTasks: null,
 }
 const rootReducer = (state = INITIAL_STATE, action) => {
@@ -16,7 +20,11 @@ const rootReducer = (state = INITIAL_STATE, action) => {
         case types.SET_USER_TOKEN:
             return {
                 ...state,
-                userToken: action.payload,
+                userInfo: {
+                    userToken: action.payload.token,
+                    userId: action.payload.id,
+                    department: action.payload.department
+                }
             }
         case types.SET_ALL_TASKS:
             return {

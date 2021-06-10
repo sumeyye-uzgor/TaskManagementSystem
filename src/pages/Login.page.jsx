@@ -11,7 +11,8 @@ function Login({login, history, setAllTasks}) {
         // console.log(email);
         try {
             const result = await axios.post( "http://localhost:5000/api/auth/login", { email } )
-            await login( result.data.payload.jwtToken )
+            const payload = result.data.payload
+            await login( { token: payload.jwtToken, id: payload.id, department: payload.department } )
             axios.defaults.headers.common['Authorization'] = 
                                 'Bearer ' + result.data.payload.jwtToken;
             const res = await axios.get( "http://localhost:5000/api/task" )
@@ -50,8 +51,8 @@ function Login({login, history, setAllTasks}) {
 }
 
 
-const mapDispatchToProps = dispatch => ( {
-    login: token => dispatch( setUserToken( token ) ),
+const mapDispatchToProps = dispatch => ({
+    login : (userInfo) => dispatch( setUserToken(userInfo ) ),
     setAllTasks : tasks => dispatch(setAllTasks(tasks))
 })
 export default connect(null, mapDispatchToProps)(withRouter(Login));
