@@ -10,6 +10,7 @@ export const loginAsync = async ( email ) =>
         await store.dispatch( setUserToken({ token: payload.jwtToken, id: payload.id, department: payload.department, name: payload.name })  )
         axios.defaults.headers.common[ 'Authorization' ] =
             'Bearer ' + response.data.payload.jwtToken;
+        return true
     }
     else {
         window.alert(response.code, response.message)

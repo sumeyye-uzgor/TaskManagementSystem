@@ -8,13 +8,11 @@ function Login({ history}) {
     
     async function handleSignIn(){
         const result = await loginAsync( email )
-        if ( result.isError ) {
-            window.alert( result.code, result.message )
-        }
-        else {
+        if ( result ) {
             setEmail("")
             history.push( "/" )
-        }  
+        }
+
     };
     function handleChange ( e )
     {

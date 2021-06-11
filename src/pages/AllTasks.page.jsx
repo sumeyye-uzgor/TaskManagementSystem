@@ -11,11 +11,8 @@ function AllTasks ()
         async function fetchData ()
         {
             const result = await getAllTasksAsync()
-            if ( result.isError ) {
-                window.alert(result.code, result.message)
-            }
-            else {
-                setTasks([...result.data])
+            if ( result ) {
+               setTasks([...result.data])
             }
         }
         fetchData();
