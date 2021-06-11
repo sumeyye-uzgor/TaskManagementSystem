@@ -1,13 +1,8 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles'
+import {Card, CardActions, CardContent, Button, Typography} from "@material-ui/core"
 import { connect } from 'react-redux';
-import axios from "axios"
-import {setAllTasks} from "../redux/actions"
+import {deleteTaskAsync} from "../data/AsyncFetching"
 
 const useStyles = makeStyles({
     root: {
@@ -27,25 +22,15 @@ const useStyles = makeStyles({
     },
 });
 
-function TaskCard({task, userInfo, setAllTasks}) {
+function TaskCard({task, userInfo}) {
     const classes = useStyles();
     // const bull = <span className={classes.bullet}>•</span>;
     const departments = [ "HR", "Sales", "Marketing" ]
     const status = [ "Pending", "Completed", "Rejected" ]
     async function handleDelete ()
     {
-        console.log(task.id)
-        const res = axios.delete( `http://localhost:5000/api/task/${task.id}` )
-        console.log(res.data)
-        if ( res.code === "taskDeleted" ) {
-            const result = await axios.get( "http://localhost:5000/api/task" )
-            await setAllTasks(result.data.payload)
-            window.alert( "task is deleted" )
-
-        }
-        else {
-            window.alert(res.message)
-        }
+        const result = await deleteTaskAsync( task.id )
+        result && window.alert("task deleted")
     }
     return (
         <Card className={classes.root}>
@@ -89,7 +74,5 @@ function TaskCard({task, userInfo, setAllTasks}) {
 const mapStateToProps = state => ( {
     userInfo: state.userInfo,
 } )
-const mapDispatchToProps = dispatch => ({
-    setAllTasks : tasks => dispatch(setAllTasks(tasks))
-})
-export default connect(mapStateToProps, mapDispatchToProps)(TaskCard)
+
+export default connect(mapStateToProps)(TaskCard)
