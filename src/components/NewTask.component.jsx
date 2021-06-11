@@ -6,6 +6,7 @@ import {Select, MenuItem} from "@material-ui/core"
 import { connect } from 'react-redux';
 import {withRouter} from "react-router-dom"
 import axios from "axios"
+import { setAllTasks } from '../redux/actions';
 
 const useStyles = makeStyles((theme) =>({
     root: {
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme) =>({
     },
 }));
 
-function NewTask({ task, isUpdate, history}) {
+function NewTask({ task, isUpdate, history, setAllTasks}) {
     const classes = useStyles();
     const [ newTask, setNewTask ] = useState( {
         title: "",
@@ -54,6 +55,8 @@ function NewTask({ task, isUpdate, history}) {
         const res = await axios.post( "http://localhost:5000/api/task", { ...newTask } )
         if ( res.statusText === "OK" ) {
             window.alert( "task is created" )
+            const result = await axios.get( "http://localhost:5000/api/task" )
+            await setAllTasks(result.data.payload)
             setNewTask( {
                 title: "",
                 description: "",
@@ -113,5 +116,8 @@ function NewTask({ task, isUpdate, history}) {
 const mapStateToProps = state => ( {
     userInfo: state.userInfo,
 } )
+const mapDispatchToProps = dispatch => ( {
+    setAllTasks: () => dispatch(setAllTasks())
+})
 
-export default connect(mapStateToProps)(withRouter(NewTask))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(NewTask))

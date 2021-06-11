@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 
 function Login({login, history, setAllTasks}) {
     const [email, setEmail] = useState("")
+    
     async function handleSignIn(){
         // console.log(email);
         try {
@@ -15,7 +16,7 @@ function Login({login, history, setAllTasks}) {
             await login( { token: payload.jwtToken, id: payload.id, department: payload.department, name: payload.name } )
             axios.defaults.headers.common['Authorization'] = 
                                 'Bearer ' + result.data.payload.jwtToken;
-            const res = await axios.get( "http://localhost:5000/api/task" )
+            const res = await axios.get( "http://localhost:5000/api/task")
             await setAllTasks(res.data.payload)
             history.push("/")
             
