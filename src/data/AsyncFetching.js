@@ -1,13 +1,13 @@
 import axios from "axios"
 import { store } from "../redux/store"
-import types from "../redux/types"
+import {setUserToken} from "../redux/actions"
 
-export const asyncLogin = async ( email ) =>
+export const loginAsync = async ( email ) =>
 {
     const response = await axios.post( "http://localhost:5000/api/auth/login", { email } )
     if ( !response.message ) {
         const payload = response.data.payload
-        await store.dispatch( types.SET_USER_TOKEN, { token: payload.jwtToken, id: payload.id, department: payload.department, name: payload.name } )
+        await store.dispatch( setUserToken({ token: payload.jwtToken, id: payload.id, department: payload.department, name: payload.name })  )
         axios.defaults.headers.common[ 'Authorization' ] =
             'Bearer ' + response.data.payload.jwtToken;
         return {isError:false}

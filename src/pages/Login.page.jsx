@@ -1,32 +1,20 @@
 import { FormControl, InputLabel, Input, FormHelperText , Grid, Card, Box, Button} from '@material-ui/core';
 import React, { useState } from "react"
-import axios from "axios"
-import { connect } from "react-redux"
-import { setAllTasks, setUserToken } from '../redux/actions';
+import {loginAsync} from "../data/AsyncFetching"
 import { withRouter } from 'react-router-dom';
 
-function Login({login, history, setAllTasks}) {
+function Login({ history}) {
     const [email, setEmail] = useState("")
     
     async function handleSignIn(){
-        // console.log(email);
-        try {
-            const result = await axios.post( "http://localhost:5000/api/auth/login", { email } )
-            const payload = result.data.payload
-            await login( { token: payload.jwtToken, id: payload.id, department: payload.department, name: payload.name } )
-            axios.defaults.headers.common['Authorization'] = 
-                                'Bearer ' + result.data.payload.jwtToken;
-            const res = await axios.get( "http://localhost:5000/api/task")
-            await setAllTasks(res.data.payload)
-            history.push("/")
-            
+        const result = await loginAsync( email )
+        if ( result.isError ) {
+            window.alert( result.code, result.message )
         }
-        catch ( error ) {
-            window.alert("error")
-        }
-            
-
-        
+        else {
+            setEmail("")
+            history.push( "/" )
+        }  
     };
     function handleChange ( e )
     {
@@ -52,9 +40,6 @@ function Login({login, history, setAllTasks}) {
 }
 
 
-const mapDispatchToProps = dispatch => ({
-    login : (userInfo) => dispatch( setUserToken(userInfo ) ),
-    setAllTasks : tasks => dispatch(setAllTasks(tasks))
-})
-export default connect(null, mapDispatchToProps)(withRouter(Login));
+
+export default withRouter(Login);
  
