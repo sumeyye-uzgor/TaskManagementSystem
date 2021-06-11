@@ -50,16 +50,16 @@ function TaskCard({task, userInfo, history}) {
                 {
                     userInfo.userId === task.user.id && (
                         <React.Fragment>
-                            <Button size="small" color="primary" variant="outlined" onClick={handleEdit}>Edit</Button>
-                            <FunctionedButton type="Delete" id={task.id} />
+                            <Button size="small" color="primary" variant="outlined" disabled={task.status===2 || task.status===1} onClick={handleEdit}>Edit</Button>
+                            <FunctionedButton type="Delete" id={task.id} disabled={task.status===2 || task.status===1} />
                         </React.Fragment>
                     )
                 }
                 {
                     userInfo.department === task.assignedDepartment && (
                         <React.Fragment>
-                            <FunctionedButton type="Reject" id={task.id}/>
-                            <FunctionedButton type="Complete" id={task.id} />
+                            <FunctionedButton type="Reject" id={task.id} disabled={task.status===2 || task.status===1} />
+                            <FunctionedButton type="Complete" id={task.id} disabled={task.status===2 || task.status===1}/>
                         </React.Fragment> )
                 }
                 <Button size="small" color="primary" variant="outlined">Detials</Button>

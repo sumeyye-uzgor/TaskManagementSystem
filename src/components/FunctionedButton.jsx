@@ -3,7 +3,7 @@ import { Button } from "@material-ui/core"
 import {deleteTaskAsync, rejectTaskAsync, completeTaskAsync} from "../data/AsyncFetching"
 import { withRouter } from "react-router-dom"
 
-function FunctionedButton ({location, history, id, type})
+function FunctionedButton ({location, history, id, type, disabled})
 {
     async function handleClick()
     {
@@ -21,7 +21,7 @@ function FunctionedButton ({location, history, id, type})
     
     }
     return (
-        <Button size="small" color="primary" variant="outlined" onClick={ handleClick }>
+        <Button size="small" color="primary" variant="outlined" onClick={ handleClick } disabled={disabled}>
             {type}
         </Button>
     )
