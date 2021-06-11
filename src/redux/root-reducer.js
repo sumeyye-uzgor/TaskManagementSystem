@@ -12,6 +12,7 @@ const INITIAL_STATE = {
         userToken: "",
         userId: "",
         depatment: null,
+        userName: ""
     },
     allTasks: null,
 }
@@ -23,7 +24,8 @@ const rootReducer = (state = INITIAL_STATE, action) => {
                 userInfo: {
                     userToken: action.payload.token,
                     userId: action.payload.id,
-                    department: action.payload.department
+                    department: action.payload.department,
+                    userName: action.payload.name,
                 }
             }
         case types.SET_ALL_TASKS:

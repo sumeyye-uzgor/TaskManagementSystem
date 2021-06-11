@@ -12,7 +12,7 @@ function Login({login, history, setAllTasks}) {
         try {
             const result = await axios.post( "http://localhost:5000/api/auth/login", { email } )
             const payload = result.data.payload
-            await login( { token: payload.jwtToken, id: payload.id, department: payload.department } )
+            await login( { token: payload.jwtToken, id: payload.id, department: payload.department, name: payload.name } )
             axios.defaults.headers.common['Authorization'] = 
                                 'Bearer ' + result.data.payload.jwtToken;
             const res = await axios.get( "http://localhost:5000/api/task" )
