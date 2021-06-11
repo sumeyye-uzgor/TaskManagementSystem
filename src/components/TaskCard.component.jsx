@@ -2,7 +2,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles'
 import {Card, CardActions, CardContent, Button, Typography} from "@material-ui/core"
 import { connect } from 'react-redux';
-import {deleteTaskAsync} from "../data/AsyncFetching"
+import {withRouter} from "react-router-dom"
+import FunctionedButton from './FunctionedButton';
 
 const useStyles = makeStyles({
     root: {
@@ -22,15 +23,14 @@ const useStyles = makeStyles({
     },
 });
 
-function TaskCard({task, userInfo}) {
+function TaskCard({task, userInfo, history}) {
     const classes = useStyles();
-    // const bull = <span className={classes.bullet}>•</span>;
     const departments = [ "HR", "Sales", "Marketing" ]
     const status = [ "Pending", "Completed", "Rejected" ]
-    async function handleDelete ()
+
+    async function handleEdit ()
     {
-        const result = await deleteTaskAsync( task.id )
-        result && window.alert("task deleted")
+        history.push({pathname:"/newtask", state: { task }})
     }
     return (
         <Card className={classes.root}>
@@ -41,9 +41,6 @@ function TaskCard({task, userInfo}) {
 
                 <Typography className={ classes.pos } color="textSecondary" component="p">
                     <br/>
-                   {/* {task.description} */}
-                    {/* Assigned By : { task.user.name } */}
-                    {/* <br/> */}
                     Assigned To : {departments[task.assignedDepartment-1]}
                     <br />
                     Status: {status[task.status]}
@@ -53,16 +50,16 @@ function TaskCard({task, userInfo}) {
                 {
                     userInfo.userId === task.user.id && (
                         <React.Fragment>
-                            <Button size="small" color="primary" variant="outlined">Edit</Button>
-                            <Button size="small" color="primary" variant="outlined" onClick={handleDelete}>Delete</Button>
+                            <Button size="small" color="primary" variant="outlined" onClick={handleEdit}>Edit</Button>
+                            <FunctionedButton type="Delete" id={task.id} />
                         </React.Fragment>
                     )
                 }
                 {
                     userInfo.department === task.assignedDepartment && (
                         <React.Fragment>
-                            <Button size="small" color="primary" variant="outlined">Complete</Button>
-                            <Button size="small" color="primary" variant="outlined">Reject</Button>
+                            <FunctionedButton type="Reject" id={task.id}/>
+                            <FunctionedButton type="Complete" id={task.id} />
                         </React.Fragment> )
                 }
                 <Button size="small" color="primary" variant="outlined">Detials</Button>
@@ -75,4 +72,4 @@ const mapStateToProps = state => ( {
     userInfo: state.userInfo,
 } )
 
-export default connect(mapStateToProps)(TaskCard)
+export default connect(mapStateToProps)(withRouter(TaskCard))

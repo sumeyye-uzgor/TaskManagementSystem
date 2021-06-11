@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {Button, CardContent, Card, CardActions,Typography} from '@material-ui/core';
 import { FormControl, InputLabel, Input, FormHelperText } from '@material-ui/core';
 import {Select, MenuItem} from "@material-ui/core"
 import {withRouter} from "react-router-dom"
-import {createTaskAsync} from "../data/AsyncFetching"
+import {createTaskAsync, editTaskAsync} from "../data/AsyncFetching"
     
 const useStyles = makeStyles((theme) =>({
     root: {
@@ -30,16 +30,19 @@ const useStyles = makeStyles((theme) =>({
     },
 }));
 
-function NewTask({ task, isUpdate, history}) {
+function NewTask ( { task, history, location } )
+{
+    
     const classes = useStyles();
     const [ newTask, setNewTask ] = useState( {
         title: "",
         description: "",
         assignedDepartment: 0,
     } )
-    isUpdate && setNewTask({...task})
-    // const departments = [ "HR", "Sales", "Marketing" ]
-    // const status = ["Pending", "Completed", "Rejected"]
+        useEffect( () =>
+        {
+            location.state && setNewTask({...location.state.task})
+        }, [location.state])
     function handleSelect (e)
     {
         setNewTask({...newTask, assignedDepartment: e.target.value})
@@ -50,21 +53,28 @@ function NewTask({ task, isUpdate, history}) {
     }
     async function handleSubmit ()
     {
-        const result = await createTaskAsync( { ...newTask } )
-        if ( result ) {
-            setNewTask({
-                title: "",
-                description: "",
-                assignedDepartment: 0,
-        })
-            history.push("/")
+        let result;
+        if ( location.state ) {
+            result = await editTaskAsync(location.state.task.id, { task: { title: newTask.title, description: newTask.description } })
         }
+        else {
+            result = await createTaskAsync( { ...newTask } )
+        }
+            if ( result ) {
+                setNewTask( {
+                    title: "",
+                    description: "",
+                    assignedDepartment: 0,
+                } )
+                history.push( "/" )
+            }
+    
     }
     return (
         <Card className={classes.root}>
             <CardContent>
                 <Typography variant="h6" component="h2">
-                    {isUpdate ? "Edit Task" : "New Task"}
+                    {location.state ? "Edit Task" : "New Task"}
                 </Typography>
                 <FormControl required className={classes.formControl}>
                     <InputLabel id="demo-simple-select-required-label">Assigned Department</InputLabel>
@@ -73,7 +83,8 @@ function NewTask({ task, isUpdate, history}) {
                     id="demo-simple-select-required"
                     value={newTask.assignedDepartment}
                     onChange={handleSelect}
-                    className={classes.selectEmpty}
+                        className={ classes.selectEmpty }
+                        disabled={location.state}
                     >
                         <MenuItem value={0} disabled>
                             <em>None</em>
@@ -98,7 +109,7 @@ function NewTask({ task, isUpdate, history}) {
             </CardContent>
             <CardActions>
 
-                <Button size="small" color="primary" variant="outlined" onClick={handleSubmit}>Save</Button>
+                <Button size="small" color="primary" variant="outlined" onClick={ handleSubmit }>{location.state ? "Save" : "Create"}</Button>
             </CardActions>
         </Card>
     );
