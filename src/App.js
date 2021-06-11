@@ -1,11 +1,13 @@
 import './App.css';
 import React from "react"
 import { Redirect, Route, Switch } from 'react-router';
+import { connect } from "react-redux"
+
+import ResponsiveDrawer from './components/Drawer.component';
 import AllTasks from './pages/AllTasks.page';
 import CreateNewTask from "./pages/CreateNewTask.page"
 import Login from "./pages/Login.page"
-import ResponsiveDrawer from './components/Drawer.component';
-import {connect} from "react-redux"
+import Details from "./pages/Details.page"
 
 function App({userToken}) {
     return (
@@ -22,6 +24,9 @@ function App({userToken}) {
                         </Route>
                         <Route path="/newtask" exact>
                             <CreateNewTask />
+                        </Route>
+                        <Route path="/details/:id" exact>
+                            <Details />
                         </Route>
                     </ResponsiveDrawer> ) :
                     (<Redirect to="/login"/> )  

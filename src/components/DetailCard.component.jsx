@@ -4,11 +4,12 @@ import {Card, CardActions, CardContent, Button, Typography} from "@material-ui/c
 import { connect } from 'react-redux';
 import {withRouter} from "react-router-dom"
 import FunctionedButton from './FunctionedButton';
+import TimeFunction from "../data/TimeFunction"
 
 const useStyles = makeStyles({
     root: {
         minWidth: 275,
-        height: 200,
+        height: 400,
     },
     bullet: {
         display: 'inline-block',
@@ -23,7 +24,7 @@ const useStyles = makeStyles({
     },
 });
 
-function TaskCard({task, userInfo, history}) {
+function DetailCard({task, userInfo, history,}) {
     const classes = useStyles();
     const departments = [ "HR", "Sales", "Marketing" ]
     const status = [ "Pending", "Completed", "Rejected" ]
@@ -31,10 +32,7 @@ function TaskCard({task, userInfo, history}) {
     {
         history.push({pathname:"/newtask", state: { task }})
     }
-    function handleDetails ()
-    {
-        history.push({pathname:`/details/${task.id}`})
-    }
+
     return (
         <Card className={classes.root}>
             <CardContent>
@@ -45,9 +43,32 @@ function TaskCard({task, userInfo, history}) {
                 <Typography className={ classes.pos } color="textSecondary" component="p">
                     <br/>
                     Assigned To : { departments[ task.assignedDepartment - 1 ] }
+                    <br/>
+                    Assigned By: {task.user.name}
                     <br />
                     Status: {status[task.status]}
                 </Typography>
+               
+
+                        <Typography className={ classes.pos } color="textSecondary" component="p">
+                            {task.description}
+                        </Typography>
+              
+            
+                       
+                            {task.logs.map(
+                                log =>
+                                {
+                                    let time = TimeFunction( log.date )
+                                    return (
+                                            <Typography className={ classes.pos } color="textSecondary" key={log.date}>
+                                            &#128338; {log.action} by {log.userName} {time}
+                                            </Typography>
+                                    )
+                                    
+                                }
+                            )}
+             
             </CardContent>
             <CardActions>
                 {
@@ -65,7 +86,6 @@ function TaskCard({task, userInfo, history}) {
                             <FunctionedButton type="Complete" id={task.id} disabled={task.status===2 || task.status===1}/>
                         </React.Fragment> )
                 }
-                <Button size="small" color="primary" variant="outlined" onClick={ handleDetails }>Details</Button>
             </CardActions>
         </Card>
     );
@@ -75,4 +95,4 @@ const mapStateToProps = state => ( {
     userInfo: state.userInfo,
 } )
 
-export default connect(mapStateToProps)(withRouter(TaskCard))
+export default connect(mapStateToProps)(withRouter(DetailCard))

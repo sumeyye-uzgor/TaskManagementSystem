@@ -57,7 +57,8 @@ export const getTaskDetailsAsync = async (id) =>
 {
     const response = await axios.get( `http://localhost:5000/api/task/${id}` )
     if ( !response.message ) {
-        return { data: [...response.data.payload] }
+
+        return { data: response.data.payload }
     }
     else {
         window.alert(response.code, response.message)
