@@ -1,8 +1,25 @@
 import TaskCard from "../components/TaskCard.component";
 import { Grid, Box } from "@material-ui/core"
-import {connect} from "react-redux"
-
-function AllTasks({tasks}) {
+import React,{ useEffect, useState } from "react";
+import {getAllTasksAsync} from "../data/AsyncFetching"
+    
+function AllTasks ()
+{
+    const [ tasks, setTasks ] = useState( [] );
+    
+    useEffect( () => {
+        async function fetchData ()
+        {
+            const result = await getAllTasksAsync()
+            if ( result.isError ) {
+                window.alert(result.code, result.message)
+            }
+            else {
+                setTasks([...result.data])
+            }
+        }
+        fetchData();
+    });
     return (
         <Box m={5}>
             <Grid container>
@@ -20,7 +37,5 @@ function AllTasks({tasks}) {
 
     );
 }
-const mapStateToProps = state => ( {
-    tasks: state.allTasks
-})
-export default connect(mapStateToProps)(AllTasks);
+
+export default AllTasks;

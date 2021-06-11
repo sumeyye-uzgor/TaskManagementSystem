@@ -21,7 +21,7 @@ export const getAllTasksAsync = async () =>
 {
     const response = await axios.get( "http://localhost:5000/api/task" )
     if ( !response.message ) {
-        return { ...response.data.payload, isError: false }
+        return { data: [...response.data.payload], isError: false }
     }
     else {
         return { ...response, isError: true }
@@ -32,7 +32,7 @@ export const getMyTasksAsync = async () =>
 {
     const response = await axios.get( "http://localhost:5000/api/task/my-tasks" )
     if ( !response.message ) {
-        return { ...response.data.payload, isError: false }
+        return { data: [...response.data.payload], isError: false }
     }
     else {
         return { ...response, isError: true }
@@ -43,7 +43,7 @@ export const getPendingTasksAsync = async () =>
 {
     const response = await axios.get( "http://localhost:5000/api/task/pendings" )
     if ( !response.message ) {
-        return { ...response.data.payload, isError: false }
+        return { data: [...response.data.payload], isError: false }
     }
     else {
         return { ...response, isError: true }
@@ -53,7 +53,7 @@ export const getTaskDetailsAsync = async (id) =>
 {
     const response = await axios.get( `http://localhost:5000/api/task/${id}` )
     if ( !response.message ) {
-        return { ...response.data.payload, isError: false }
+        return { data: [...response.data.payload], isError: false }
     }
     else {
         return { ...response, isError: true }
