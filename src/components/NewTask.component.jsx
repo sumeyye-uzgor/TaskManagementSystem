@@ -3,11 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import {Button, CardContent, Card, CardActions,Typography} from '@material-ui/core';
 import { FormControl, InputLabel, Input, FormHelperText } from '@material-ui/core';
 import {Select, MenuItem} from "@material-ui/core"
-import { connect } from 'react-redux';
 import {withRouter} from "react-router-dom"
-import axios from "axios"
-import { setAllTasks } from '../redux/actions';
-
+import {createTaskAsync} from "../data/AsyncFetching"
+    
 const useStyles = makeStyles((theme) =>({
     root: {
         minWidth: 275,
@@ -32,7 +30,7 @@ const useStyles = makeStyles((theme) =>({
     },
 }));
 
-function NewTask({ task, isUpdate, history, setAllTasks}) {
+function NewTask({ task, isUpdate, history}) {
     const classes = useStyles();
     const [ newTask, setNewTask ] = useState( {
         title: "",
@@ -52,22 +50,15 @@ function NewTask({ task, isUpdate, history, setAllTasks}) {
     }
     async function handleSubmit ()
     {
-        const res = await axios.post( "http://localhost:5000/api/task", { ...newTask } )
-        if ( res.statusText === "OK" ) {
-            window.alert( "task is created" )
-            const result = await axios.get( "http://localhost:5000/api/task" )
-            await setAllTasks(result.data.payload)
-            setNewTask( {
+        const result = await createTaskAsync( { ...newTask } )
+        if ( result ) {
+            setNewTask({
                 title: "",
                 description: "",
                 assignedDepartment: 0,
-            })
+        })
             history.push("/")
         }
-        else {
-            window.alert("an error occured, try again")
-        }
-        console.log(res)
     }
     return (
         <Card className={classes.root}>
@@ -113,11 +104,6 @@ function NewTask({ task, isUpdate, history, setAllTasks}) {
     );
 }
 
-const mapStateToProps = state => ( {
-    userInfo: state.userInfo,
-} )
-const mapDispatchToProps = dispatch => ( {
-    setAllTasks: () => dispatch(setAllTasks())
-})
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(NewTask))
+
+export default withRouter(NewTask)
