@@ -8,6 +8,8 @@ import AllTasks from './pages/AllTasks.page';
 import CreateNewTask from "./pages/CreateNewTask.page"
 import Login from "./pages/Login.page"
 import Details from "./pages/Details.page"
+import PendingTasks from './pages/PendingTasks.page';
+import MyTasks from './pages/MyTasks.page';
 
 function App({userToken}) {
     return (
@@ -21,6 +23,12 @@ function App({userToken}) {
                     (<ResponsiveDrawer>
                         <Route path="/" exact>
                             <AllTasks />
+                        </Route>
+                        <Route path="/mytasks" exact>
+                            <MyTasks />
+                        </Route>
+                        <Route path="/pendingtasks" exact>
+                            <PendingTasks />
                         </Route>
                         <Route path="/newtask" exact>
                             <CreateNewTask />
