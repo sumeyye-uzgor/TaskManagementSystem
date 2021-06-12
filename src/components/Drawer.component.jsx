@@ -1,11 +1,13 @@
 import React from 'react';
 import {Link} from "react-router-dom"
 import PropTypes from 'prop-types';
-import { AppBar, CssBaseline, Divider, Drawer, Hidden, IconButton, List } from '@material-ui/core';
-import {ListItem, ListItemIcon, ListItemText, Toolbar, Typography} from '@material-ui/core';
+import { AppBar, CssBaseline, Drawer, Hidden, IconButton, List } from '@material-ui/core';
+import {Menu as MenuIcon, ExitToApp} from "@material-ui/icons"
+import {ListItem, ListItemText,ListItemIcon, Toolbar, Typography} from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import {Inbox as InboxIcon, Mail as MailIcon, Menu as MenuIcon} from '@material-ui/icons';
 import NavbarItems from "../data/NavbarItems"
+import { connect } from 'react-redux';
+import {setUserToken} from "../redux/actions"
 
 const drawerWidth = 240;
 
@@ -53,28 +55,33 @@ function ResponsiveDrawer(props) {
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
-  };
+    };
+    const handleLogOut = () =>
+    {
+        props.setUserToken( {
+            token: "",
+            userId: "",
+            department: null,
+            name: "",
+        })
+    }
 
   const drawer = (
     <div>
       <div className={classes.toolbar} />
-      <List className={ classes.toolbarMe}>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
       <List>
         {NavbarItems.map((item) => (
           <ListItem button key={item.id}>
-                <Link to={item.link}>
+                <Link to={ item.link } style={ { textDecoration: "none", display:"flex" , color: "inherit"} }>
+                    {item.icon}
                     <ListItemText primary={ item.title } />
                 </Link>
           </ListItem>
-        ))}
+        ) ) }
+        <ListItem button onClick={handleLogOut}>
+                <ListItemIcon><ExitToApp/></ListItemIcon>
+                <ListItemText primary="Log Out" />
+        </ListItem>
       </List>
     </div>
   );
@@ -155,4 +162,7 @@ ResponsiveDrawer.propTypes = {
   window: PropTypes.func,
 };
 
-export default ResponsiveDrawer;
+const mapDispatchToProps = dispatch => ( {
+    setUserToken: (userInfo) => dispatch(setUserToken(userInfo))
+})
+export default connect(null, mapDispatchToProps)(ResponsiveDrawer);
