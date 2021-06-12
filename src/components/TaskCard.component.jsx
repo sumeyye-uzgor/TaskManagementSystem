@@ -41,11 +41,11 @@ function TaskCard({task, userInfo, history}) {
     return (
         <Card className={classes.root}>
             <CardContent  onClick={ handleDetails } className={`${classes.content} cardHover`} >
-                <Typography variant="h6" component="h2">
+                <Typography variant="h6" component="h2" style={{ color:"#2c387e"}}>
                     {task.title}
                 </Typography>
 
-                <Typography className={ classes.pos } color="textSecondary" component="p">
+                <Typography className={ classes.pos } style={ {color: "#525982"} } component="p" >
                     <br/>
                     Assigned To : { departments[ task.assignedDepartment - 1 ] }
                     <br />

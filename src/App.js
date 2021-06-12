@@ -13,7 +13,7 @@ import MyTasks from './pages/MyTasks.page';
 
 function App({userToken}) {
     return (
-        <React.Fragment>
+        <div style={{backgroundColor: "#f0f2f5", minHeight:"100vh", minWidth:"100vw", position: "absolute", color: "indigo"}}>
             <Switch>
                 <Route path="/login" exact>
                     <Login />
@@ -40,7 +40,7 @@ function App({userToken}) {
                     (<Redirect to="/login"/> )  
                 }
             </Switch>
-        </React.Fragment>
+        </div>
 
     );
 }

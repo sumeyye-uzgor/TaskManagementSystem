@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from "react-router-dom"
 import PropTypes from 'prop-types';
 import { AppBar, CssBaseline, Drawer, Hidden, IconButton, List } from '@material-ui/core';
-import {Menu as MenuIcon, ExitToApp, Refresh} from "@material-ui/icons"
+import {Menu as MenuIcon, ExitToApp, Refresh, AssignmentTurnedIn} from "@material-ui/icons"
 import {ListItem, ListItemText,ListItemIcon, Toolbar, Typography} from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import NavbarItems from "../data/NavbarItems"
@@ -26,7 +26,9 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
         width: "100%",
         height: "80px",
-    },
+      },
+      backgroundColor: "white",
+      color: "#2c387e"
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -37,14 +39,20 @@ const useStyles = makeStyles((theme) => ({
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   toolbarMe:{
-    marginTop: "-60px"
+      color: "#2c387e"
+
   },
   drawerPaper: {
-    width: drawerWidth,
-    marginTop: "80px",
+      width: drawerWidth,
+      marginTop: "80px",
+
+    [theme.breakpoints.up('sm')]: {
+      marginTop: '0',
+    },
   },
   content: {
-    flexGrow: 1,
+      flexGrow: 1,
+    //   34a0a4, 52b69a
   },
 }));
 
@@ -75,9 +83,16 @@ function ResponsiveDrawer(props) {
     }
 
   const drawer = (
-    <div>
+    <div className={classes.toolbarMe}>
       <div className={classes.toolbar} />
-      <List>
+            <List>
+              <Hidden xsDown >
+                    <Typography variant="h5" noWrap>
+                      <AssignmentTurnedIn  style={{ color:"#2c387e"}}/> Task Manager
+                    </Typography>
+                  <br />
+                  <br/>
+              </Hidden>
         {NavbarItems.map((item) => (
           <ListItem button key={item.id}>
                 <Link to={ item.link } style={ { textDecoration: "none", display:"flex" , color: "inherit"} }>
@@ -87,11 +102,11 @@ function ResponsiveDrawer(props) {
           </ListItem>
         ) ) }
             <ListItem button onClick={handleReset}>
-                <ListItemIcon><Refresh/></ListItemIcon>
+                <ListItemIcon><Refresh style={{ color:"#2c387e"}}/></ListItemIcon>
                 <ListItemText primary="Reset Data" />
             </ListItem>
             <ListItem button onClick={handleLogOut}>
-                <ListItemIcon><ExitToApp/></ListItemIcon>
+                <ListItemIcon><ExitToApp  style={{ color:"#2c387e"}}/></ListItemIcon>
                 <ListItemText primary="Log Out" />
             </ListItem>
 
@@ -103,7 +118,8 @@ function ResponsiveDrawer(props) {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
+          <CssBaseline />
+          <Hidden smUp>
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <IconButton
@@ -114,12 +130,16 @@ function ResponsiveDrawer(props) {
             className={classes.menuButton}
           >
             <MenuIcon />
-          </IconButton>
+                      </IconButton>
+                    
+            
           <Typography variant="h6" noWrap>
-            Responsive drawer
+            <AssignmentTurnedIn  style={{ color:"#2c387e"}}/> Task Manager
           </Typography>
         </Toolbar>
       </AppBar>
+          </Hidden>
+
       <nav className={classes.drawer} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">

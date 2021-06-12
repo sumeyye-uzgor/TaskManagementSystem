@@ -73,44 +73,45 @@ function NewTask ( { task, history, location } )
     return (
         <Card className={classes.root}>
             <CardContent>
-                <Typography variant="h6" component="h2">
+                <Typography variant="h6" component="h2" style={{ color:"#2c387e"}}>
                     {location.state ? "Edit Task" : "New Task"}
                 </Typography>
-                <FormControl required className={classes.formControl}>
-                    <InputLabel id="demo-simple-select-required-label">Assigned Department</InputLabel>
+                <FormControl required className={classes.formControl} >
+                    <InputLabel id="demo-simple-select-required-label" style={{ color:"#2c387e"}}>Assigned Department</InputLabel>
                     <Select
                     labelId="demo-simple-select-required-label"
                     id="demo-simple-select-required"
                     value={newTask.assignedDepartment}
-                    onChange={handleSelect}
+                        onChange={ handleSelect }
+                        style={{ color:"#2c387e"}}
                         className={ classes.selectEmpty }
                         disabled={location.state}
                     >
-                        <MenuItem value={0} disabled>
+                        <MenuItem value={0} style={{ color:"#2c387e"}} disabled>
                             <em>None</em>
                         </MenuItem>
-                        <MenuItem value={1}>HR</MenuItem>
-                        <MenuItem value={2}>Sales</MenuItem>
-                        <MenuItem value={3}>Marketing</MenuItem>
+                        <MenuItem value={1} style={{ color:"#2c387e"}}>HR</MenuItem>
+                        <MenuItem value={2} style={{ color:"#2c387e"}}>Sales</MenuItem>
+                        <MenuItem value={3} style={{ color:"#2c387e"}}>Marketing</MenuItem>
                     </Select>
-                <FormHelperText>Required</FormHelperText>
+                <FormHelperText style={{ color:"#2c387e"}}>Required</FormHelperText>
                 </FormControl>
                 <br/>
                 <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="title">Title</InputLabel>
-                    <Input id="title" aria-describedby="my-helper-text" onChange={handleChange} value={newTask.title} name="title"/>
+                    <InputLabel htmlFor="title" style={{ color:"#2c387e"}}>Title</InputLabel>
+                    <Input id="title" aria-describedby="my-helper-text" style={{ color:"#2c387e"}} onChange={handleChange} value={newTask.title} name="title"/>
                     {/* <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText> */}
                 </FormControl>
                 <br/>
                 <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="desc">Description</InputLabel>
-                    <Input id="desc" aria-describedby="my-helper-text" onChange={handleChange} value={newTask.description} name="description"/>
+                    <InputLabel htmlFor="desc" style={{ color:"#2c387e"}}>Description</InputLabel>
+                    <Input id="desc" aria-describedby="my-helper-text" style={{ color:"#2c387e"}} onChange={handleChange} value={newTask.description} name="description"/>
                     {/* <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText> */}
                 </FormControl>
             </CardContent>
             <CardActions>
 
-                <Button size="small" color="primary" variant="outlined" onClick={ handleSubmit }>{location.state ? "Save" : "Create"}</Button>
+                <Button size="small" style={{ color:"#2c387e"}} variant="outlined" onClick={ handleSubmit }>{location.state ? "Save" : "Create"}</Button>
             </CardActions>
         </Card>
     );
