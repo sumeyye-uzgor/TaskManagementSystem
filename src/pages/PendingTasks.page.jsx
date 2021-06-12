@@ -23,7 +23,7 @@ function PendingTasks ()
                 <Grid item xs={12}>
                     <Grid container fluid="true" justify="flex-start" spacing={3}>
                         {tasks.map((task) => (
-                            <Grid key={task.id} item xs={12} md={6} lg={4} sm={12} xl={3}>
+                            <Grid key={task.id} item>
                                 <TaskCard task={task}/>
                             </Grid>
                         ))}
