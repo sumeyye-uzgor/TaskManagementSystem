@@ -125,3 +125,15 @@ export const rejectTaskAsync = async (id) =>
     }
 }
 
+
+export const resetDataAsync = async () =>
+{
+    const response = await axios.get( `http://localhost:5000/api/task/reset-data` )
+    if ( !response.message ) {
+        return true
+    }
+    else {
+        window.alert(response.code, response.message)
+        return null
+    }
+}

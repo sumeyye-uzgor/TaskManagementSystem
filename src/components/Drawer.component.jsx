@@ -2,12 +2,13 @@ import React from 'react';
 import {Link} from "react-router-dom"
 import PropTypes from 'prop-types';
 import { AppBar, CssBaseline, Drawer, Hidden, IconButton, List } from '@material-ui/core';
-import {Menu as MenuIcon, ExitToApp} from "@material-ui/icons"
+import {Menu as MenuIcon, ExitToApp, Refresh} from "@material-ui/icons"
 import {ListItem, ListItemText,ListItemIcon, Toolbar, Typography} from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import NavbarItems from "../data/NavbarItems"
 import { connect } from 'react-redux';
-import {setUserToken} from "../redux/actions"
+import { setUserToken } from "../redux/actions"
+import {resetDataAsync} from "../data/AsyncFetching"
 
 const drawerWidth = 240;
 
@@ -65,6 +66,13 @@ function ResponsiveDrawer(props) {
             name: "",
         })
     }
+    const handleReset = async () =>
+    {
+        const result = await resetDataAsync()
+        if ( !result.message ) {
+            window.alert("Data is resetted!")
+        }
+    }
 
   const drawer = (
     <div>
@@ -78,11 +86,16 @@ function ResponsiveDrawer(props) {
                 </Link>
           </ListItem>
         ) ) }
-        <ListItem button onClick={handleLogOut}>
+            <ListItem button onClick={handleReset}>
+                <ListItemIcon><Refresh/></ListItemIcon>
+                <ListItemText primary="Reset Data" />
+            </ListItem>
+            <ListItem button onClick={handleLogOut}>
                 <ListItemIcon><ExitToApp/></ListItemIcon>
                 <ListItemText primary="Log Out" />
-        </ListItem>
-      </List>
+            </ListItem>
+
+        </List>
     </div>
   );
 
@@ -138,27 +151,15 @@ function ResponsiveDrawer(props) {
           </Drawer>
         </Hidden>
       </nav>
-      {/* <Hidden xsDown> */}
       <main className={classes.content}>
         <div className={classes.toolbar} />
             {props.children}
       </main>
-      {/* </Hidden> */}
-    {/* <Hidden smUp>
-      <main className={classes.contentXS}>
-        <div className={classes.toolbar} />
-            {props.children}
-      </main>
-      </Hidden> */}
     </div>
   );
 }
 
 ResponsiveDrawer.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
   window: PropTypes.func,
 };
 
