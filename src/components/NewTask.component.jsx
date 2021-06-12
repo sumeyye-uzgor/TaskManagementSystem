@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {Button, CardContent, Card, CardActions,Typography} from '@material-ui/core';
-import { FormControl, InputLabel, Input, FormHelperText } from '@material-ui/core';
+import { FormControl, InputLabel, Input, FormHelperText, TextField } from '@material-ui/core';
 import {Select, MenuItem} from "@material-ui/core"
 import {withRouter} from "react-router-dom"
 import {createTaskAsync, editTaskAsync} from "../data/AsyncFetching"
@@ -10,15 +10,15 @@ import {connect} from "react-redux"
     
 const useStyles = makeStyles((theme) =>({
     root: {
-        minWidth: 275,
+        width: 310,
     },
     formControl: {
         margin: theme.spacing(1),
-        width: 300,
+        width: 270,
     },
     formControl2: {
         margin: theme.spacing(1),
-        width: 700,
+        width: 270,
     },
     selectEmpty: {
         marginTop: theme.spacing(2),
@@ -115,12 +115,24 @@ function NewTask ( { task, history, location, openSnackbar } )
                 </FormControl>
                 <br/>
                 <FormControl className={classes.formControl2}>
-                    <InputLabel htmlFor="desc" style={{ color:"#2c387e"}}>Description</InputLabel>
-                    <Input id="desc" aria-describedby="my-helper-text" style={{ color:"#2c387e"}} onChange={handleChange} value={newTask.description} name="description"/>
+                    {/* <InputLabel htmlFor="desc" style={ { color: "#2c387e" } }>Description</InputLabel> */}
+                     <TextField
+                        id="desc"
+                        label="Decription"
+                        multiline
+                    
+                        rowsMax={ 4 }
+                        style={{ color:"#2c387e"}}
+                        onChange={ handleChange }
+                        value={ newTask.description }
+                        // variant="outlined"
+                        name="description"
+        />
+                    {/* <Input id="desc" aria-describedby="my-helper-text"   /> */}
                     {/* <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText> */}
                 </FormControl>
             </CardContent>
-            <CardActions>
+            <CardActions >
 
                 <Button size="small" style={{ color:"#2c387e"}} variant="outlined" onClick={ handleSubmit }>{location.state ? "Save" : "Create"}</Button>
             </CardActions>

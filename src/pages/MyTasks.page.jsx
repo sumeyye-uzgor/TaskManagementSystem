@@ -18,14 +18,17 @@ function MyTasks ()
         fetchData();
     });
     return (
-       <Box m={5}>
+       <Box m={1}>
             <Grid container>
                 <Grid item xs={12}>
-                    <Grid container fluid="true" justify="flex-start" spacing={3}>
-                        {tasks.map((task) => (
-                            <Grid key={ task.id } item>
+                    <Grid container fluid="true">
+                        { tasks.map( ( task ) => (
+                            <Box m={1} key={task.id}>
+                            
+                            <Grid item>
                                 <TaskCard task={task}/>
-                            </Grid>
+                                </Grid>
+                                </Box>
                         ))}
                     </Grid>
                 </Grid>
