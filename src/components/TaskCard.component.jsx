@@ -7,8 +7,11 @@ import FunctionedButton from './FunctionedButton';
 
 const useStyles = makeStyles({
     root: {
-        minWidth: 275,
+        width: 350,
         height: 200,
+    },
+    content: {
+        cursor: "pointer",
     },
     bullet: {
         display: 'inline-block',
@@ -37,7 +40,7 @@ function TaskCard({task, userInfo, history}) {
     }
     return (
         <Card className={classes.root}>
-            <CardContent>
+            <CardContent  onClick={ handleDetails } className={`${classes.content} cardHover`} >
                 <Typography variant="h6" component="h2">
                     {task.title}
                 </Typography>
@@ -65,7 +68,7 @@ function TaskCard({task, userInfo, history}) {
                             <FunctionedButton type="Complete" id={task.id} disabled={task.status===2 || task.status===1}/>
                         </React.Fragment> )
                 }
-                <Button size="small" color="primary" variant="outlined" onClick={ handleDetails }>Details</Button>
+                {/* <Button size="small" color="primary" variant="outlined" onClick={ handleDetails }>Details</Button> */}
             </CardActions>
         </Card>
     );

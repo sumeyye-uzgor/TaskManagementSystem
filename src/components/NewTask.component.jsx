@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) =>({
     },
     formControl: {
         margin: theme.spacing(1),
-        width: 200,
+        width: 300,
     },
     selectEmpty: {
         marginTop: theme.spacing(2),
@@ -96,12 +96,13 @@ function NewTask ( { task, history, location } )
                 <FormHelperText>Required</FormHelperText>
                 </FormControl>
                 <br/>
-                <FormControl>
+                <FormControl className={classes.formControl}>
                     <InputLabel htmlFor="title">Title</InputLabel>
                     <Input id="title" aria-describedby="my-helper-text" onChange={handleChange} value={newTask.title} name="title"/>
                     {/* <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText> */}
                 </FormControl>
-                <FormControl>
+                <br/>
+                <FormControl className={classes.formControl}>
                     <InputLabel htmlFor="desc">Description</InputLabel>
                     <Input id="desc" aria-describedby="my-helper-text" onChange={handleChange} value={newTask.description} name="description"/>
                     {/* <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText> */}
