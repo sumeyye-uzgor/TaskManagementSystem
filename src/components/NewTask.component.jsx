@@ -5,6 +5,8 @@ import { FormControl, InputLabel, Input, FormHelperText } from '@material-ui/cor
 import {Select, MenuItem} from "@material-ui/core"
 import {withRouter} from "react-router-dom"
 import {createTaskAsync, editTaskAsync} from "../data/AsyncFetching"
+import { openSnackbar } from '../redux/actions';
+import {connect} from "react-redux"
     
 const useStyles = makeStyles((theme) =>({
     root: {
@@ -13,6 +15,10 @@ const useStyles = makeStyles((theme) =>({
     formControl: {
         margin: theme.spacing(1),
         width: 300,
+    },
+    formControl2: {
+        margin: theme.spacing(1),
+        width: 700,
     },
     selectEmpty: {
         marginTop: theme.spacing(2),
@@ -30,7 +36,7 @@ const useStyles = makeStyles((theme) =>({
     },
 }));
 
-function NewTask ( { task, history, location } )
+function NewTask ( { task, history, location, openSnackbar } )
 {
     
     const classes = useStyles();
@@ -55,10 +61,15 @@ function NewTask ( { task, history, location } )
     {
         let result;
         if ( location.state ) {
-            result = await editTaskAsync(location.state.task.id, { task: { title: newTask.title, description: newTask.description } })
+            result = await editTaskAsync( location.state.task.id, { task: { title: newTask.title, description: newTask.description } } )
+            let snackbar = {isError:false, message: "Task is edited!"}
+            openSnackbar(snackbar)
         }
         else {
             result = await createTaskAsync( { ...newTask } )
+            let snackbar = {isError:false, message: "Task is added!"}
+            openSnackbar( snackbar)
+            
         }
             if ( result ) {
                 setNewTask( {
@@ -103,7 +114,7 @@ function NewTask ( { task, history, location } )
                     {/* <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText> */}
                 </FormControl>
                 <br/>
-                <FormControl className={classes.formControl}>
+                <FormControl className={classes.formControl2}>
                     <InputLabel htmlFor="desc" style={{ color:"#2c387e"}}>Description</InputLabel>
                     <Input id="desc" aria-describedby="my-helper-text" style={{ color:"#2c387e"}} onChange={handleChange} value={newTask.description} name="description"/>
                     {/* <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText> */}
@@ -117,6 +128,8 @@ function NewTask ( { task, history, location } )
     );
 }
 
+const mapDispatchToProps = dispatch => ( {
+    openSnackbar: ({...snackbar}) => dispatch(openSnackbar({...snackbar}))
+})
 
-
-export default withRouter(NewTask)
+export default connect(null, mapDispatchToProps)(withRouter(NewTask))

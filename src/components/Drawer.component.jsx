@@ -7,7 +7,7 @@ import {ListItem, ListItemText,ListItemIcon, Toolbar, Typography} from '@materia
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import NavbarItems from "../data/NavbarItems"
 import { connect } from 'react-redux';
-import { setUserToken } from "../redux/actions"
+import { openSnackbar, setUserToken } from "../redux/actions"
 import {resetDataAsync} from "../data/AsyncFetching"
 
 const drawerWidth = 240;
@@ -72,13 +72,15 @@ function ResponsiveDrawer(props) {
             userId: "",
             department: null,
             name: "",
-        })
+        } )
+        props.openSnackbar({isError: false, message: "Logged out!"})
+        
     }
     const handleReset = async () =>
     {
         const result = await resetDataAsync()
         if ( !result.message ) {
-            window.alert("Data is resetted!")
+            props.openSnackbar({isError: false, message: "Data is resetted!"})
         }
     }
 
@@ -184,6 +186,7 @@ ResponsiveDrawer.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ( {
-    setUserToken: (userInfo) => dispatch(setUserToken(userInfo))
+    setUserToken: ( userInfo ) => dispatch( setUserToken( userInfo ) ),
+    openSnackbar: ({...snackbar}) => dispatch(openSnackbar({...snackbar}))
 })
 export default connect(null, mapDispatchToProps)(ResponsiveDrawer);

@@ -15,6 +15,11 @@ const INITIAL_STATE = {
         userName: ""
     },
     allTasks: null,
+    snackbar: {
+        isOpen: false,
+        isError: false,
+        message: "",
+    }
 }
 const rootReducer = (state = INITIAL_STATE, action) => {
     switch ( action.type ) {
@@ -32,6 +37,25 @@ const rootReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 allTasks: action.payload
+            }
+        case types.OPEN_SNACKBAR:
+            return {
+                ...state,
+                snackbar: {
+                    isOpen: true,
+                    isError: action.payload.isError,
+                    message: action.payload.message
+                }
+            }
+        case types.CLOSE_SNACKBAR:
+            return {
+                ...state,
+                snackbar: {
+                    isOpen: false,
+                    isError: false,
+                    title: "",
+                    message: "",
+                }
             }
         default:
             return state

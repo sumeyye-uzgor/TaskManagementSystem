@@ -10,10 +10,13 @@ import Login from "./pages/Login.page"
 import Details from "./pages/Details.page"
 import PendingTasks from './pages/PendingTasks.page';
 import MyTasks from './pages/MyTasks.page';
+import SnackBar from "./components/SnackBar.component"
 
 function App({userToken}) {
     return (
         <div style={{backgroundColor: "#f0f2f5", minHeight:"100vh", minWidth:"100vw", position: "absolute", color: "indigo"}}>
+                <SnackBar/>
+            
             <Switch>
                 <Route path="/login" exact>
                     <Login />
